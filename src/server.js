@@ -9,11 +9,22 @@ const app = express()
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
+const validator = require('express-validator')
+const bodyParser = require('body-parser')
+
+
 const middlewares = [
   layout(),
-  express.static(path.join(__dirname, 'public'))
+  express.static(path.join(__dirname, 'public')),
+  validator(),
+  bodyParser.urlencoded()
+
 ]
 app.use(middlewares)
+
+
+
+
 
 app.use('/', routes)
 
@@ -26,6 +37,9 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!')
 })
 
-app.listen(3000, () => {
-  console.log(`App running at http://localhost:3000`)
+app.listen(8080, () => {
+  console.log(`App running at http://localhost:8080`)
+
 })
+
+

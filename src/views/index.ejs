@@ -1,2 +1,140 @@
 
-<h1>Working With Forms in Node.js</h1>
+
+<div class="form-header">
+    <h2>        <%= title %>  </h2>
+
+  </div>
+  <form action="submit" method="post" enctype="multipart/form-data">
+    <input type="file" name="files">
+
+    <input type="submit">
+</form>
+<script>
+// 3. call fileuploader instance
+$('input:file').fileuploader({
+  dragDrop: {
+    // set the drop container {null, String, jQuery Object}
+    // example: 'body'
+    container: null,
+
+    // Callback fired on entering with dragging files the drop container
+    onDragEnter: function(event, listEl, parentEl, newInputEl, inputEl) {
+        // callback will go here
+    },
+
+    // Callback fired on leaving with dragging files the drop container
+    onDragLeave: function(event, listEl, parentEl, newInputEl, inputEl) {
+        // callback will go here
+    },
+
+    // Callback fired on dropping the files in the drop container
+    onDrop: function(event, listEl, parentEl, newInputEl, inputEl) {
+        // callback will go here
+    }
+},// by default - null
+upload: {
+    // upload URL {String}
+    url: 'upload.php',
+
+    // upload data {null, Object}
+    // you can also change this Object in beforeSend callback
+    // example: { option_1: '1', option_2: '2' }
+    data: null,
+
+    // upload type {String}
+    // for more details http://api.jquery.com/jquery.ajax/
+    type: 'POST',
+
+    // upload enctype {String}
+    // for more details http://api.jquery.com/jquery.ajax/
+    enctype: 'multipart/form-data',
+
+    // auto-start file upload {Boolean}
+    // if false, you can use the API methods - item.upload.send() to trigger upload for each file
+    // if false, you can use the upload button - check custom file name example
+    start: true,
+
+    // upload the files synchron {Boolean}
+    synchron: true,
+
+    // upload large files in chunks {false, Number}
+    // set file chunk size in MB as Number (ex: 4)
+    chunk: false,
+
+    // Callback fired before uploading a file
+    // by returning false, you can prevent the upload
+    beforeSend: function(item, listEl, parentEl, newInputEl, inputEl) {
+        // example:
+        // here you can extend the upload data
+        item.upload.data.new_data_attribute = 'nice';
+
+        // example:
+        // here you can create upload headers
+        item.upload.headers = {
+            "Authorization": "Basic " + btoa(username + ":" + password)
+        };
+
+        return true;
+    },
+
+    // Callback fired if the upload succeeds
+    // we will add by default a success icon and fadeOut the progressbar
+    onSuccess: function(data, item, listEl, parentEl, newInputEl, inputEl, textStatus, jqXHR) {
+        item.html.find('.fileuploader-action-remove').addClass('fileuploader-action-success');
+
+        setTimeout(function() {
+            item.html.find('.progress-bar2').fadeOut(400);
+        }, 400);
+    },
+
+    // Callback fired if the upload failed
+    // we will set by default the progressbar to 0% and if it wasn't cancelled, we will add a retry button
+    onError: function(item, listEl, parentEl, newInputEl, inputEl, jqXHR, textStatus, errorThrown) {
+        var progressBar = item.html.find('.progress-bar2');
+
+        if(progressBar.length > 0) {
+            progressBar.find('span').html(0 + "%");
+            progressBar.find('.fileuploader-progressbar .bar').width(0 + "%");
+            item.html.find('.progress-bar2').fadeOut(400);
+        }
+
+        item.upload.status != 'cancelled' && item.html.find('.fileuploader-action-retry').length == 0 ? item.html.find('.column-actions').prepend(
+            '<a class="fileuploader-action fileuploader-action-retry" title="Retry"><i></i></a>'
+        ) : null;
+    },
+
+    // Callback fired while upload the file
+    // we will set by default the progressbar width and percentage
+    /* data = {
+        loaded: ...,
+        loadedInFormat: ...,
+        total: ...,
+        totalInFormat: ...,
+        percentage: ...,
+        secondsElapsed: ...,
+        secondsElapsedInFormat:...,
+        bytesPerSecond: ...,
+        bytesPerSecondInFormat: ...,
+        remainingBytes: ...,
+        remainingBytesInFormat: ...,
+        secondsRemaining: ...,
+        secondsRemainingInFormat: ...
+    } */
+    onProgress: function(data, item, listEl, parentEl, newInputEl, inputEl) {
+        var progressBar = item.html.find('.progress-bar2');
+
+        if(progressBar.length > 0) {
+            progressBar.show();
+            progressBar.find('span').html(data.percentage + "%");
+            progressBar.find('.fileuploader-progressbar .bar').width(data.percentage + "%");
+        }
+    },
+
+    // Callback fired after all files were uploaded
+    onComplete: function(listEl, parentEl, newInputEl, inputEl, jqXHR, textStatus) {
+        // callback will go here
+    }
+}
+
+});
+</script>

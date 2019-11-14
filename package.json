@@ -1,7 +1,7 @@
 {
   "name": "node-forms",
   "version": "1.0.0",
-  "description": "",
+  "description": "https://www.sitepoint.com/creating-and-handling-forms-in-node-js/",
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon src/server.js"
@@ -19,9 +19,18 @@
     "express-session": "^1.15.6",
     "express-validator": "^4.3.0",
     "helmet": "^3.10.0",
-    "multer": "^1.3.0"
+    "multer": "^1.3.0",
+    "odoo-xmlrpc": "^1.0.8"
   },
   "devDependencies": {
     "nodemon": "^1.14.11"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sitepoint-editors/node-forms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sitepoint-editors/node-forms/issues"
+  },
+  "homepage": "https://github.com/sitepoint-editors/node-forms#readme"
 }
